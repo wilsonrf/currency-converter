@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CurrencyController {
 
-    @RequestMapping(produces = {"text/html"}, value = "/")
+    @RequestMapping(value = "/")
     public String index() {
-        return "index.html";
+        return "index";
     }
 
 }
