@@ -25,5 +25,11 @@ nbdist/
 .nb-gradle/
 
 ### Javascript ###
-/node_modules/
-src/main/resources/static/js/*
+**/node_modules/**
+**/public/**
+
+### Eclipse ###
+classes/
+.classpath
+.project
+bin/
