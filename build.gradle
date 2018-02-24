@@ -28,8 +28,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-devtools')
+	//compile('org.springframework.boot:spring-boot-starter-security')
 
-	compile('com.eclipsesource.j2v8:j2v8_linux_x86_64:4.+')
+	//compile('com.eclipsesource.j2v8:j2v8_linux_x86_64:4.+')
+	compile('com.eclipsesource.j2v8:j2v8_macosx_x86_64:4.+')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')
@@ -38,11 +40,4 @@ dependencies {
 	testCompile('io.cucumber:cucumber-java8:2.+')
 }
 
-sourceSets {
-	main {
-		resources {
-			include 'public/**'
-			include 'static/**'
-		}
-	}
-}
+bootRun.systemProperties = System.properties

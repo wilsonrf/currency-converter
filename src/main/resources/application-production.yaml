@@ -11,4 +11,4 @@ oxr:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/currency-converter
+      uri: mongodb://converter:Gpv2AkhqH8WfLr8T@ds247078.mlab.com:47078/currency-converter

@@ -13,9 +13,10 @@ module.exports = {
     filename: './[name].js',
   },
   resolve: {
-    extensions: ['.js', '.css'],
+    extensions: ['*', '.js', '.css'],
     alias: {
-      components: path.resolve(__dirname, 'app', 'js', 'components'),
+      Components: path.resolve(__dirname, 'app', 'js', 'components'),
+      Modules: path.resolve(__dirname, 'node_modules'),
     },
   },
   module: {

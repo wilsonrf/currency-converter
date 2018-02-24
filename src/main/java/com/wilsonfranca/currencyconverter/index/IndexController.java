@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 public class IndexController {
 
-    @GetMapping("/{path:(?!.*.js|.*.css|.*.jpg).*$}")
+    @GetMapping("/")
     public String index(Model model, HttpServletRequest request) throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
