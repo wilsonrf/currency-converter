@@ -30,8 +30,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-devtools')
 	//compile('org.springframework.boot:spring-boot-starter-security')
 
-	//compile('com.eclipsesource.j2v8:j2v8_linux_x86_64:4.+')
-	compile('com.eclipsesource.j2v8:j2v8_macosx_x86_64:4.+')
+	compile('com.eclipsesource.j2v8:j2v8_linux_x86_64:4.+')
+	//compile('com.eclipsesource.j2v8:j2v8_macosx_x86_64:4.+')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')
