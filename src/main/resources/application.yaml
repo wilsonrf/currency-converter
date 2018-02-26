@@ -1,0 +1,14 @@
+oxr:
+  app:
+    name: currency-converter
+    id: 1d3efa34b315486aa8a86c52a5d5f365
+    base: EUR
+  url:
+    base: https://openexchangerates.org/api/
+    latest: https://openexchangerates.org/api/latest.json
+    currencies: https://openexchangerates.org/api/currencies.json
+    convert: https://openexchangerates.org/api/convert
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/currency-converter
