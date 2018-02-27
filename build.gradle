@@ -1,6 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.10.RELEASE'
+		wiremockVersion = '2.14.0'
 	}
 	repositories {
 		mavenCentral()
@@ -11,7 +12,9 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.wilsonfranca'
@@ -22,6 +25,12 @@ repositories {
 	mavenCentral()
 }
 
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Edgware.SR2'
+    }
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
@@ -40,6 +49,8 @@ dependencies {
 	testCompile('io.cucumber:cucumber-spring:2.+')
 	testCompile('io.cucumber:cucumber-java8:2.+')
 	testCompile('io.cucumber:cucumber-java8:2.+')
+	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
+	testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
 
     runtime("org.codehaus.groovy:groovy:2.4.8")
 }

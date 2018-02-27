@@ -30,4 +30,14 @@ public enum Currency {
     public String getCurrencyName() {
         return currencyName;
     }
+
+    public static Currency from(String symbol) {
+        for (Currency currency: values()) {
+            if(currency.name().equalsIgnoreCase(symbol)) {
+                return currency;
+            }
+        }
+
+        throw new IllegalArgumentException("Currency not found");
+    }
 }

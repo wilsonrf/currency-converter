@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/latest.json?app_id=1d3efa34b315486aa8a86c52a5d5f365&symbols=ARS&base=USD"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "latest-success.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
