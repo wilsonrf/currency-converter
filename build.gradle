@@ -33,12 +33,15 @@ dependencies {
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
     compile('org.webjars:bootstrap:4.0.0')
     compile('org.webjars:bootstrap-material-design:4.+')
+    compile 'org.webjars:material-design-icons:3.0.1'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')
 	testCompile('io.cucumber:cucumber-spring:2.+')
 	testCompile('io.cucumber:cucumber-java8:2.+')
 	testCompile('io.cucumber:cucumber-java8:2.+')
+
+    runtime("org.codehaus.groovy:groovy:2.4.8")
 }
 
 bootRun.systemProperties = System.properties
