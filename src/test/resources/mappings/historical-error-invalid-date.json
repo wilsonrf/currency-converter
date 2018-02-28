@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/historical/2055-01-01.json?app_id=1d3efa34b315486aa8a86c52a5d5f365&symbols=ARS&base=USD"
+  },
+  "response": {
+    "status": 400,
+    "bodyFileName": "historical-error-invalid-date.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
