@@ -1,0 +1,23 @@
+.datepicker-dropdown.dropdown-menu {
+    transform: none;
+    opacity: 1;
+}
+
+.convert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+
+.currencies {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto 20px;
+}
+
+.currencies-middle {
+    margin: 10px 0;
+}

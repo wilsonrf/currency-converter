@@ -11,33 +11,41 @@
     <div class="jumbotron">
         <div class="container">
             <form method="POST" th:action="@{/converter.html}" th:object="${converterFormData}">
-                <div class="form-row justify-content-center">
-                    <div class="col-sm3">
-                        <label class="sr-only" for="amount">Name</label>
-                        <input class="form-control" type="text" th:field="*{amount}" id="amount" value="1"/>
-                        <p th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="error">Amount error</p>
+                <div class="form-row justify-content-center convert-container">
+                    <div class="form-group col-sm2">
+                        <label for="amount" class="bmd-label-floating">Amount</label>
+                        <input th:classappend="${#fields.hasErrors('amount') ? 'is-invalid' : 'is-valid'}" class="form-control" type="text" th:field="*{amount}" id="amount" value="1"/>
+                        <div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="invalid-feedback">
+                        </div>
+                        <span class="bmd-help">Enter a value greather than '0'</span>
                     </div>
-                    <div class="col-sm3">
-                        <select class="custom-select"
-                                name="from" id="from">
-                            <option th:each="currency : ${currencies}"
-                            th:value="${currency}"
-                            th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
-                        </select>
+                    <div class="col-sm7 currencies">
+                        <div class="col-xs12">
+                            <select class="custom-select"
+                                    name="from" id="from">
+                                <option th:each="currency : ${currencies}"
+                                        th:value="${currency}"
+                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
+                            </select>
+                        </div>
+                        <div class="col-xs12 currencies-middle">
+                            <i class="material-icons">swap_horiz</i>
+                        </div>
+                        <div class="col-xs12">
+                            <select class="custom-select"
+                                    name="to" id="to">
+                                <option th:each="currency : ${currencies}"
+                                        th:value="${currency}"
+                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <i class="material-icons">swap_horiz</i>
+                    <div class="col-xs2" id="sandbox-container">
+                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"/>
+                        <span class="bmd-help">Choose a date or leave blank for today</span>
                     </div>
-                    <div class="col-sm3">
-                        <select class="custom-select"
-                                name="to" id="to">
-                            <option th:each="currency : ${currencies}"
-                                    th:value="${currency}"
-                                    th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-default btn-lg">
+                    <div class="col-sm1">
+                        <button type="submit" class="btn btn-raised btn-primary">
                             <i class="material-icons">check</i>
                         </button>
                     </div>
@@ -45,5 +53,43 @@
             </form>
         </div>
     </div>
+    <table class="table table-borderless">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Amount</th>
+            <th scope="col">From</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Rate</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th:block th:each="hist,i : ${historic}" scope="row">
+        <tr>
+            <td th:text="${i.index + 1}"></td>
+            <td th:text="${#dates.format(hist.getRateDate(),'dd/MM/yyyy hh:mm:ss z')}"></td>
+
+            <td th:text="${hist.getAmount()}"></td>
+
+            <td th:text="${hist.getFrom()}"></td>
+
+            <td th:text="${hist.getRate()}"></td>
+
+            <td th:text="${hist.getTo()}"></td>
+        </tr>
+        </th:block>
+        </tr>
+        </tbody>
+    </table>
+    <script>
+
+        $('#sandbox-container input').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked"
+        });
+
+    </script>
 </body>
 </html>

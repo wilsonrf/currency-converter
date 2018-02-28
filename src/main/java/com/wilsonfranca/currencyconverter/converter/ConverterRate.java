@@ -1,8 +1,11 @@
 package com.wilsonfranca.currencyconverter.converter;
 
 import com.wilsonfranca.currencyconverter.currency.Currency;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -13,13 +16,18 @@ import java.time.Instant;
 @Document
 public class ConverterRate {
 
+    @Id
+    private ObjectId id;
+
     private Currency from;
 
     private Currency to;
 
     @CreatedDate
+    @Indexed(expireAfterSeconds = 2419200, background = true)
     private Instant dateCreated;
 
+    @Indexed
     private Instant rateDate;
 
     private Double amount;
@@ -27,6 +35,7 @@ public class ConverterRate {
     private Double rate;
 
     @CreatedBy
+    @Indexed
     private String user;
 
     public ConverterRate(){}
@@ -37,6 +46,14 @@ public class ConverterRate {
         this.amount = amount;
         this.rate = rate;
         this.rateDate = Instant.ofEpochMilli(timestamp);
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public Currency getFrom() {
