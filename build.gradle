@@ -32,6 +32,10 @@ dependencyManagement {
     }
 }
 
+configurations {
+    wiremock
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -43,6 +47,7 @@ dependencies {
     compile('org.webjars:bootstrap:4.0.0')
     compile('org.webjars:bootstrap-material-design:4.+')
     compile 'org.webjars:material-design-icons:3.0.1'
+    compile 'org.webjars:Eonasdan-bootstrap-datetimepicker:4.17.47'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')
@@ -53,6 +58,25 @@ dependencies {
 	testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
 
     runtime("org.codehaus.groovy:groovy:2.4.8")
+
+    //wiremocks local
+    wiremock("com.github.tomakehurst:wiremock-standalone:$wiremockVersion")
 }
+
+
+task copyWiremockStandalone(type: Copy) {
+    from configurations.wiremock
+    into "$buildDir/wiremock"
+}
+
+task startWiremock(type: JavaExec) {
+    def rootDir = sourceSets.test.resources.srcDirs.find { it != null }
+    def file = "$buildDir/wiremock/wiremock-standalone-$wiremockVersion"+'.jar'
+    main = "-jar"
+    args = [file, "--root-dir", "$rootDir", "--port", "9090"]
+}
+
+startWiremock.dependsOn copyWiremockStandalone
+
 
 bootRun.systemProperties = System.properties

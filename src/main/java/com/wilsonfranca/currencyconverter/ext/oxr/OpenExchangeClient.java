@@ -5,6 +5,7 @@ import com.wilsonfranca.currencyconverter.converter.ConverterRate;
 import com.wilsonfranca.currencyconverter.currency.Currency;
 import com.wilsonfranca.currencyconverter.ext.CurrencyConverterClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +25,7 @@ public class OpenExchangeClient implements CurrencyConverterClient {
     private OpenExchangeConfigurationProperties configurationProperties;
 
     @Autowired
-    public OpenExchangeClient(RestTemplate restTemplate, OpenExchangeConfigurationProperties configurationProperties) {
+    public OpenExchangeClient(@Qualifier("oxrRestTemplate") RestTemplate restTemplate, OpenExchangeConfigurationProperties configurationProperties) {
         this.restTemplate = restTemplate;
         this.configurationProperties = configurationProperties;
     }

@@ -1,5 +1,6 @@
 package com.wilsonfranca.currencyconverter.configuration;
 
+import com.wilsonfranca.currencyconverter.ext.oxr.OpenExchangeErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -10,8 +11,11 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestTemplateConfiguration {
 
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
+    @Bean(name = "oxrRestTemplate")
+    RestTemplate oxrRestTemplate() {
+        OpenExchangeErrorHandler errorHandler = new OpenExchangeErrorHandler();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(errorHandler);
+        return restTemplate;
     }
 }

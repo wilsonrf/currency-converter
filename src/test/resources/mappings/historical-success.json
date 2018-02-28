@@ -5,7 +5,7 @@
   },
   "response": {
     "status": 200,
-    "bodyFileName": "latest-success.json",
+    "bodyFileName": "historical-success.json",
     "headers": {
       "Content-Type": "application/json"
     }

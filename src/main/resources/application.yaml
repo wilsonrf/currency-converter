@@ -4,11 +4,11 @@ oxr:
     id: 1d3efa34b315486aa8a86c52a5d5f365
     base: EUR
   urls:
-    base: https://openexchangerates.org/api/
-    latest: https://openexchangerates.org/api/latest.json
-    historical: https://openexchangerates.org/api/historical.json
-    currencies: https://openexchangerates.org/api/currencies.json
-    convert: https://openexchangerates.org/api/convert
+    base: http://localhost:9090/
+    latest: /latest.json
+    historical: /historical/%s.json
+    currencies: /currencies.json
+    convert: /convert
 spring:
   data:
     mongodb:

@@ -20,6 +20,8 @@ public class ConverterRate {
     @CreatedDate
     private Instant dateCreated;
 
+    private Instant rateDate;
+
     private Double amount;
 
     private Double rate;
@@ -34,7 +36,7 @@ public class ConverterRate {
         this.to = to;
         this.amount = amount;
         this.rate = rate;
-        this.dateCreated = Instant.ofEpochMilli(timestamp);
+        this.rateDate = Instant.ofEpochMilli(timestamp);
     }
 
     public Currency getFrom() {
@@ -59,6 +61,14 @@ public class ConverterRate {
 
     public void setDateCreated(Instant dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Instant getRateDate() {
+        return rateDate;
+    }
+
+    public void setRateDate(Instant rateDate) {
+        this.rateDate = rateDate;
     }
 
     public Double getAmount() {

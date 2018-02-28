@@ -5,15 +5,17 @@
 <head>
     <title>Currency Converter</title>
     <div th:replace="./base/header :: header-css"/>
+    <div th:replace="./base/footer :: footer-js"/>
 </head>
 <body>
     <div class="jumbotron">
         <div class="container">
-            <form>
+            <form method="POST" th:action="@{/converter.html}" th:object="${converterFormData}">
                 <div class="form-row justify-content-center">
                     <div class="col-sm3">
                         <label class="sr-only" for="amount">Name</label>
-                        <input class="form-control" type="text" name="amount" id="amount" value="1"/>
+                        <input class="form-control" type="text" th:field="*{amount}" id="amount" value="1"/>
+                        <p th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="error">Amount error</p>
                     </div>
                     <div class="col-sm3">
                         <select class="custom-select"

@@ -32,6 +32,7 @@ def appenderList = ['STDOUT', 'FILE']
 
 logger('org.mongodb', WARN, appenderList, false)
 logger('org.springframework.data.mongodb', WARN, appenderList, false)
-logger('org.springframework.security', DEBUG, appenderList, false)
+logger('org.springframework.security', WARN, appenderList, false)
 logger('org.apache.http', WARN, appenderList, false)
+logger('org.thymeleaf', WARN, appenderList, false)
 root(INFO, appenderList)
