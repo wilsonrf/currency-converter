@@ -12,6 +12,6 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
-        return "index";
+        return "redirect:/converter.html";
     }
 }

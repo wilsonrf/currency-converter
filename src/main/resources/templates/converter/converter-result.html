@@ -7,6 +7,8 @@
     <div th:replace="./base/header :: header-css"/>
 </head>
 <body>
+<div th:replace="./base/header :: navbar"/>
+<div class="bmd-layout-container" >
     <div class="jumbotron">
         <div class="container">
             <form method="POST" th:action="@{/converter.html}" th:object="${converterFormData}">
@@ -22,7 +24,8 @@
                                     name="from" id="from">
                                 <option th:each="currency : ${currencies}"
                                         th:value="${currency}"
-                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
+                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"
+                                        th:selected="(${currency.name()} == *{from})"/>
                             </select>
                         </div>
                         <div class="col-xs12 currencies-middle">
@@ -33,7 +36,8 @@
                                     name="to" id="to">
                                 <option th:each="currency : ${currencies}"
                                         th:value="${currency}"
-                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
+                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"
+                                        th:selected="(${currency.name()} == *{to})"/>
                             </select>
                         </div>
                     </div>
@@ -49,10 +53,10 @@
             </form>
             <div class="row justify-content-center align-items-center">
                 <div class="col-auto">
-                    <span th:text="${rate.getAmount() + ' ' + rate.getFrom() + ' = ' }" class="text-secondary display-4 align-middle"/>
+                    <span th:text="${#numbers.formatDecimal(rate.getAmount(), 0, 'COMMA', 3, 'POINT') + ' ' + rate.getFrom() + ' = ' }" class="text-secondary display-4 align-middle"/>
                 </div>
                 <div class="col-auto">
-                    <span th:text="${rate.getRate()}" class="text-primary display-2 align-middle"/>
+                    <span th:text="${#numbers.formatDecimal(rate.getRate(), 0, 'COMMA', 6, 'POINT')}" class="text-primary display-2 align-middle"/>
                 </div>
                 <div class="col-auto">
                     <span th:text="' '+ ${rate.getTo()}" class="text-secondary display-4 align-middle"/>
@@ -83,11 +87,11 @@
                     <td th:text="${i.index + 1}"></td>
                     <td th:text="${#dates.format(hist.getRateDate(),'dd/MM/yyyy hh:mm:ss z')}"></td>
 
-                    <td th:text="${hist.getAmount()}"></td>
+                    <td th:text="${#numbers.formatDecimal(hist.getAmount(), 0, 'COMMA', 6, 'POINT')}"></td>
 
                     <td th:text="${hist.getFrom()}"></td>
 
-                    <td th:text="${hist.getRate()}"></td>
+                    <td th:text="${#numbers.formatDecimal(hist.getRate(), 0, 'COMMA', 6, 'POINT')}"></td>
 
                     <td th:text="${hist.getTo()}"></td>
                 </tr>
@@ -95,12 +99,15 @@
         </tr>
         </tbody>
     </table>
-    <script>
-
-            $('#sandbox-container input').datepicker({
-                format: "yyyy-mm-dd",
-                todayBtn: "linked"
-            });
+</div>
+<div th:replace="./base/footer :: footer-js"/>
+<script>
+     $(function() {
+        $('#sandbox-container input').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked"
+        });
+     });
 
     </script>
 </body>

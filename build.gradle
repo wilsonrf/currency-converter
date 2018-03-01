@@ -48,6 +48,7 @@ dependencies {
     compile('org.webjars:bootstrap-material-design:4.+')
     compile 'org.webjars:material-design-icons:3.0.1'
 	compile 'org.webjars:bootstrap-datepicker:1.7.1'
+	compile 'org.webjars.bower:snackbarjs:1.1.0'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')

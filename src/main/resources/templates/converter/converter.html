@@ -5,9 +5,11 @@
 <head>
     <title>Currency Converter</title>
     <div th:replace="./base/header :: header-css"/>
-    <div th:replace="./base/footer :: footer-js"/>
+
 </head>
 <body>
+<div th:replace="./base/header :: navbar"/>
+<div class="bmd-layout-container" >
     <div class="jumbotron">
         <div class="container">
             <form method="POST" th:action="@{/converter.html}" th:object="${converterFormData}">
@@ -25,7 +27,8 @@
                                     name="from" id="from">
                                 <option th:each="currency : ${currencies}"
                                         th:value="${currency}"
-                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
+                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"
+                                        th:selected="(${currency.name()} == *{from})"/>
                             </select>
                         </div>
                         <div class="col-xs12 currencies-middle">
@@ -36,12 +39,13 @@
                                     name="to" id="to">
                                 <option th:each="currency : ${currencies}"
                                         th:value="${currency}"
-                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"/>
+                                        th:utext="${currency.name()} + ' - ' + ${currency.getCurrencyName()}"
+                                        th:selected="(${currency.name()} == *{to})"/>
                             </select>
                         </div>
                     </div>
                     <div class="col-xs2" id="sandbox-container">
-                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"/>
+                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" th:field="*{instant}"/>
                         <span class="bmd-help">Choose a date or leave blank for today</span>
                     </div>
                     <div class="col-sm1">
@@ -83,13 +87,29 @@
         </tr>
         </tbody>
     </table>
+</div>
+    <div th:replace="./base/footer :: footer-js"/>
     <script>
-
+     $(function() {
         $('#sandbox-container input').datepicker({
             format: "yyyy-mm-dd",
             todayBtn: "linked"
         });
+     });
 
+    </script>
+    <script th:if="${error}" th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        var options = {
+            content: /*[[${message}]]*/,
+            style: "text-center",
+            timeout: 0,
+            htmlAllowed: true
+        }
+        $.snackbar(options);
+    });
+     /*]]>*/
     </script>
 </body>
 </html>
