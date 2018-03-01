@@ -20,6 +20,7 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/signup.html").permitAll()
                     .antMatchers("/converter.html").hasAnyRole("CONVERTER")
                     .anyRequest().permitAll()
                 .and()

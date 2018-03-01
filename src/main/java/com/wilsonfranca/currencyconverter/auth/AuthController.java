@@ -2,6 +2,7 @@ package com.wilsonfranca.currencyconverter.auth;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +27,16 @@ public class AuthController {
     }
 
     @GetMapping(value = "signup.html")
-    public String signup(Model model) {
-
+    public String signup(Model model, SignupFormData signupFormData) {
         return "security/signup";
     }
 
     @PostMapping (value = "signup.html")
-    public String signup(@Valid SignupFormData signupFormData, Model model) {
+    public String signup(@Valid SignupFormData signupFormData, BindingResult bindingResult, Model model) {
 
+        if(bindingResult.hasErrors()) {
+            return "security/signup";
+        }
         return "security/signup";
     }
 }
