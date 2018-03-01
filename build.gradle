@@ -36,6 +36,18 @@ configurations {
     wiremock
 }
 
+sourceSets {
+
+	behaviorTest {
+		java {
+			srcDir 'src/behavior-test/java'
+		}
+
+		compileClasspath += main.output + configurations.testCompile
+		runtimeClasspath += main.output + configurations.testRuntime
+	}
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -53,7 +65,6 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')
 	testCompile('io.cucumber:cucumber-spring:2.+')
-	testCompile('io.cucumber:cucumber-java8:2.+')
 	testCompile('io.cucumber:cucumber-java8:2.+')
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
 	testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
