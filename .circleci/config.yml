@@ -40,8 +40,26 @@ jobs:
 
       # run tests!
       - run: gradle test
-deployment:
-  staging:
-    branch: master
-    heroku:
-      appname: fathomless-shelf-89005
+  deploy:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Heroku
+            command: |
+                git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/master
+                sleep 5
+                heroku restart
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
