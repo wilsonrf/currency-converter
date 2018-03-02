@@ -45,7 +45,7 @@ public class ConverterRate {
         this.to = to;
         this.amount = amount;
         this.rate = rate;
-        this.rateDate = Instant.ofEpochMilli(timestamp);
+        this.rateDate = Instant.ofEpochSecond(timestamp);
     }
 
     public ObjectId getId() {

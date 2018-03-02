@@ -65,13 +65,14 @@ public class OpenExchangeErrorHandler implements ResponseErrorHandler {
 
     private void handleBadRequest(ClientHttpResponse response) {
 
-        logger.warn("Client error [{}]", response);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         OpenExchangeError error = null;
 
         try {
+
+            logger.warn("Client error [{}] [{}] [{}]", response.getStatusText(), response.getStatusCode(), response.getBody());
 
             error = objectMapper.readValue(response.getBody(), OpenExchangeError.class);
 

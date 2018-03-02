@@ -14,8 +14,7 @@ public enum Currency {
     JPY("Japanese Yen"),
     BRL("Brazilian Real"),
     ARS("Argentine Pesos"),
-    BTC("Bitcon"),
-    ETH("Ethereum");
+    BTC("Bitcon");
 
     private String currencyName;
 
