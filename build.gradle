@@ -1,3 +1,5 @@
+import de.undercouch.gradle.tasks.download.Download
+
 buildscript {
 	ext {
 		springBootVersion = '1.5.10.RELEASE'
@@ -8,6 +10,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath 'de.undercouch:gradle-download-task:3.3.0'
 	}
 }
 
@@ -16,6 +19,7 @@ apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: "de.undercouch.download"
 
 group = 'com.wilsonfranca'
 version = '0.0.1-SNAPSHOT'
@@ -39,6 +43,10 @@ configurations {
 		extendsFrom testRuntime
 	}
 
+	behaviorTestCompile {
+		extendsFrom testCompile
+	}
+
 }
 
 sourceSets {
@@ -46,11 +54,8 @@ sourceSets {
 	cucumber {
 		java {
 			srcDir 'src/cucumber/java'
-			compileClasspath += main.output
-			compileClasspath += main.compileClasspath
-			compileClasspath += test.output
-			compileClasspath += test.compileClasspath
-			runtimeClasspath += test.runtimeClasspath
+			compileClasspath += main.output + test.output + main.compileClasspath + test.compileClasspath
+			runtimeClasspath += main.output + test.runtimeClasspath
 		}
 		resources {
 			srcDir 'src/cucumber/resources'
@@ -99,10 +104,10 @@ task startWiremock(type: JavaExec) {
     def rootDir = sourceSets.test.resources.srcDirs.find { it != null }
     def file = "$buildDir/wiremock/wiremock-standalone-$wiremockVersion"+'.jar'
     main = "-jar"
-    args = [file, "--root-dir", "$rootDir", "--port", "9090"]
+    args = [file, "--root-dir", "$rootDir", "--port", "9090", "fork", true]
 }
 
-task behaviorTest() {
+task cucumber() {
 	dependsOn assemble, compileTestJava
 	doLast {
 		javaexec {
@@ -113,8 +118,36 @@ task behaviorTest() {
 	}
 }
 
+task downloadChromeDriver(type: Download) {
+	src 'https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip'
+	def destDirectory = new File("$buildDir/chrome-driver/")
+	if(!destDirectory.exists()) {
+		destDirectory.mkdir()
+	}
+	dest "$buildDir/chrome-driver"
+	overwrite false
+	onlyIfModified true
+	acceptAnyCertificate true
+
+}
+
+task chromeDriver(type: Copy, dependsOn: downloadChromeDriver) {
+	def zipFile = file("$buildDir/chrome-driver/chromedriver_linux64.zip")
+	def outputDir = file("$buildDir/chrome-driver/")
+	from zipTree(zipFile)
+	into outputDir
+}
+
+task behaviorTest(type: Test, dependsOn: chromeDriver) {
+	testClassesDirs = sourceSets.cucumber.output
+	classpath = sourceSets.cucumber.runtimeClasspath
+	outputs.upToDateWhen { false }
+}
 
 startWiremock.dependsOn copyWiremockStandalone
 
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.1'
+}
 
 bootRun.systemProperties = System.properties

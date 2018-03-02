@@ -14,10 +14,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 
 
 /**
@@ -33,10 +34,15 @@ public class LoginStepdefs implements En {
     @Autowired
     PersonRepository personRepository;
 
-    @Before
-    public void setUp() throws MalformedURLException {
+    @Autowired
+    private ResourceLoader resourceLoader;
 
-        System.setProperty("webdriver.chrome.driver", "src/cucumber/resources/chromedriver");
+
+    @Before
+    public void setUp() throws IOException {
+
+        System.setProperty("webdriver.chrome.driver", "build/chrome-driver/chromedriver");
+
         webDriver = new ChromeDriver(DesiredCapabilities.chrome());
 
         Person person = new Person();

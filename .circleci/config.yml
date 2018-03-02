@@ -40,9 +40,3 @@ jobs:
 
       # run tests!
       - run: gradle test
-
-deployment:
-  staging:
-    branch: master
-    heroku:
-      appname: ffathomless-shelf-89005
