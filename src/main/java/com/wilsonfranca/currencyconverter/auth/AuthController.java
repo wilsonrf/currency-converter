@@ -37,7 +37,7 @@ public class AuthController {
 
 
     @RequestMapping(value = "login-error.html")
-    public String logout(Model model) {
+    public String loginError(Model model) {
         model.addAttribute("error", true);
         return "security/login";
     }
@@ -56,7 +56,11 @@ public class AuthController {
 
             try {
                 Person person = personService.register(signupFormData);
-                return "redirect:/login.html";
+                model.addAttribute("new_user", true);
+                model.addAttribute("user", person.getFirstName() + ' ' +person.getLastName());
+                model.addAttribute("username", person.getEmail());
+
+                return "security/login";
             } catch (PersonExistsException e) {
                 logger.error("The user is already registred", e);
                 model.addAttribute("registered", true);

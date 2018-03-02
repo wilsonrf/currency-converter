@@ -45,7 +45,7 @@ public class AuthControllerTest {
 
         result = authController.signup(signupFormData, bindingResult, model);
 
-        assertThat(result).isEqualTo("converter/converter");
+        assertThat(result).isEqualTo("security/login");
 
     }
 

@@ -46,5 +46,18 @@
     });
      /*]]>*/
 </script>
+    <script th:if="${new_user}" th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+    var options = {
+        content: "Welcome /*[[${user}]]*/, please login",
+        style: "text-center",
+        timeout: 0,
+        htmlAllowed: true
+    }
+    $.snackbar(options);
+    });
+     /*]]>*/
+</script>
 </body>
 </html>

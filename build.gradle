@@ -22,6 +22,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
@@ -34,17 +35,26 @@ dependencyManagement {
 
 configurations {
     wiremock
+	behaviorTestRuntime {
+		extendsFrom testRuntime
+	}
+
 }
 
 sourceSets {
 
-	behaviorTest {
+	cucumber {
 		java {
-			srcDir 'src/behavior-test/java'
+			srcDir 'src/cucumber/java'
+			compileClasspath += main.output
+			compileClasspath += main.compileClasspath
+			compileClasspath += test.output
+			compileClasspath += test.compileClasspath
+			runtimeClasspath += test.runtimeClasspath
 		}
-
-		compileClasspath += main.output + configurations.testCompile
-		runtimeClasspath += main.output + configurations.testRuntime
+		resources {
+			srcDir 'src/cucumber/resources'
+		}
 	}
 }
 
@@ -66,6 +76,10 @@ dependencies {
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1')
 	testCompile('io.cucumber:cucumber-spring:2.+')
 	testCompile('io.cucumber:cucumber-java8:2.+')
+	testCompile('io.cucumber:cucumber-junit:2.+')
+	testCompile('org.seleniumhq.selenium:selenium-server:3.+')
+	testCompile('org.seleniumhq.selenium:selenium-java:3.+')
+	testCompile('org.seleniumhq.selenium:selenium-remote-driver:3.+')
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
 	testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
 
@@ -87,6 +101,18 @@ task startWiremock(type: JavaExec) {
     main = "-jar"
     args = [file, "--root-dir", "$rootDir", "--port", "9090"]
 }
+
+task behaviorTest() {
+	dependsOn assemble, compileTestJava
+	doLast {
+		javaexec {
+			main = "cucumber.api.cli.Main"
+			classpath = configurations.behaviorTestRuntime + sourceSets.main.output + sourceSets.test.output
+			args = ['--plugin', 'pretty', '--glue', 'gradle.cucumber', 'src/cucumber/resources']
+		}
+	}
+}
+
 
 startWiremock.dependsOn copyWiremockStandalone
 
