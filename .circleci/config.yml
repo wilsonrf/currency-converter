@@ -6,25 +6,13 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
-
     environment:
-      # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
@@ -41,14 +29,35 @@ jobs:
       # run tests!
       - run: gradle test
   deploy:
-    docker:
-      - image: circleci/openjdk:8-jdk
     working_directory: ~/repo
+    docker:
+      - image: node:9-alpine
     steps:
-      - checkout:
+      - checkout
       - run:
-          name: Deploy Master to Heroku
+          name: Install git
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/master
-            sleep 5
+            apk update && apk add git
+      - run:
+          name: Install heroku-cli
+          command: |
+            npm install -g heroku-cli
+      - run:
+          name: Deploy to Heroku
+          command: |
+            heroku git:remote -a $HEROKU_APP_NAME
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/master
+            sleep 5 
             heroku restart
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: 
+                - master       
