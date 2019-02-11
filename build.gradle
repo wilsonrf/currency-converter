@@ -146,8 +146,5 @@ task behaviorTest(type: Test, dependsOn: chromeDriver) {
 
 startWiremock.dependsOn copyWiremockStandalone
 
-task wrapper(type: Wrapper) {
-	gradleVersion = '4.1'
-}
 
 bootRun.systemProperties = System.properties
