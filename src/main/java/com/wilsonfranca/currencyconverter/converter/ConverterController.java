@@ -54,12 +54,13 @@ public class ConverterController {
         List<Currency> currencies = Currency.getAll();
         model.addAttribute("currencies", currencies);
 
-        Collection<ConverterRate> historic = converterService.getLastUserRates(principal.getName());
-        model.addAttribute("historic", historic);
-
-        logger.info("Historic size [{}]", historic.size());
 
         if(bindingResult.hasErrors()) {
+
+            Collection<ConverterRate> historic = converterService.getLastUserRates(principal.getName());
+            model.addAttribute("historic", historic);
+
+            logger.info("Historic size [{}]", historic.size());
             bindingResult.getAllErrors().stream().forEach(objectError -> System.out.println(objectError));
             return "converter/converter";
         }
@@ -78,6 +79,11 @@ public class ConverterController {
             }
 
             model.addAttribute("rate", rate);
+
+            Collection<ConverterRate> historic = converterService.getLastUserRates(principal.getName());
+            model.addAttribute("historic", historic);
+
+            logger.info("Historic size [{}]", historic.size());
 
             return "converter/converter-result";
 
