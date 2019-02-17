@@ -13,3 +13,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/currency-converter
+
+recaptcha:
+  url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s
+  site-key: 6LecDpIUAAAAAKAnYNWW2BpgcVW47wBSTip2xI-O
+  secret-key: 6LecDpIUAAAAALFqkigPsoOJFZgqEY-uAHl0DNOF

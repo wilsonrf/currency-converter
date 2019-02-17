@@ -6,6 +6,7 @@
     <title>Currency Converter</title>
     <div th:replace="./base/header :: meta"/>
     <div th:replace="./base/header :: header-css"/>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <div class="container h-100">
@@ -16,7 +17,7 @@
                     <h3 class="mb-0">Sign Up</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/signup.html" th:object="${signupFormData}" method="POST" enctype="utf8">
+                    <form action="/signup.html" th:object="${signupFormData}" method="POST" enctype="utf8" id="signup-form">
                         <div class="form-group">
                             <label for="first_name" class="bmd-label-floating">First Name</label>
                             <input th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' : 'is-valid'}" type="text" class="form-control" id="first_name" th:field="*{firstName}"/>
@@ -44,7 +45,7 @@
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                        <button type="submit" class="g-recaptcha btn btn-primary" th:attr="data-sitekey=${@captchaSettings.getSiteKey()}" data-callback="onSubmit">Sign Up</button>
                     </form>
                 </div>
             </div>
@@ -76,5 +77,10 @@
     $.snackbar(options);
     });
      /*]]>*/
+</script>
+<script>
+    function onSubmit() {
+        document.getElementById('signup-form').submit();
+      }
 </script>
 </html>
