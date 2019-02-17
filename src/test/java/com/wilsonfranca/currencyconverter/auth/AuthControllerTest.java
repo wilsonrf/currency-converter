@@ -19,11 +19,13 @@ public class AuthControllerTest {
 
     AuthController authController;
     PersonService personService;
+    CaptchaService captchaService;
 
     @Before
     public void before() {
         personService = mock(PersonService.class);
-        authController = new AuthController(personService);
+        captchaService = mock(CaptchaService.class);
+        authController = new AuthController(personService, captchaService);
     }
 
     @Test
@@ -43,7 +45,10 @@ public class AuthControllerTest {
 
         when(personService.register(signupFormData)).thenReturn(new Person());
 
-        result = authController.signup(signupFormData, bindingResult, model);
+        doNothing()
+                .when(captchaService).processResponse(anyString());
+
+        result = authController.signup(signupFormData, "captcha-response", bindingResult, model);
 
         assertThat(result).isEqualTo("security/login");
 
@@ -62,9 +67,12 @@ public class AuthControllerTest {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
 
+        doNothing()
+                .when(captchaService).processResponse(anyString());
+
         Model model = new BindingAwareModelMap();
 
-        result = authController.signup(signupFormData, bindingResult, model);
+        result = authController.signup(signupFormData, "captcha-response", bindingResult, model);
 
         assertThat(result).isEqualTo("security/signup");
 
@@ -85,11 +93,14 @@ public class AuthControllerTest {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
 
+        doNothing()
+                .when(captchaService).processResponse(anyString());
+
         Model model = new BindingAwareModelMap();
 
         when(personService.register(signupFormData)).thenThrow(new PersonExistsException());
 
-        result = authController.signup(signupFormData, bindingResult, model);
+        result = authController.signup(signupFormData, "captcha-response", bindingResult, model);
 
         assertThat(result).isEqualTo("security/signup");
 
