@@ -5,13 +5,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
+import java.util.Optional;
+
 /**
  * Created by wilson.franca on 28/02/18.
  */
 public class BasicSecurityAuditorAware implements AuditorAware<String> {
 
     @Override
-    public String getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -21,6 +23,6 @@ public class BasicSecurityAuditorAware implements AuditorAware<String> {
 
         String username = ((User) authentication.getPrincipal()).getUsername();
 
-        return username;
+        return Optional.of(username);
     }
 }
